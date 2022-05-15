@@ -63,7 +63,8 @@ public class UDPServer {
                         break;
                     case "DISCO":
                         long resultadoEspacoEmDisco = retornarEspacoEmDisco();
-                        String espacoEmDiscoFormatado = "Espaço disponível : " + resultadoEspacoEmDisco / (1024 * 1024) + " MB";
+                        String espacoEmDiscoFormatado = "Espaï¿½o disponï¿½vel : " + resultadoEspacoEmDisco / (1024 * 1024)
+                                + " MB";
 
                         meuRetorno = espacoEmDiscoFormatado;
                         tamanho = meuRetorno.length();

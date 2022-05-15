@@ -1,5 +1,5 @@
 public class ProdutorConsumidor {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Recipiente rec = new Recipiente();
         Produtor p = new Produtor(rec);
         Consumidor c = new Consumidor(rec);
@@ -15,10 +15,12 @@ class Recipiente {
     public Recipiente() {
         valor = 0;
     }
+
     public void escreverValor(int v) {
         valor = v;
         System.out.println("Recipiente recebeu o valor " + v);
     }
+
     public int lerValor() {
         System.out.println("O valor " + valor + " foi lido do recipiente");
         return valor;
@@ -34,9 +36,9 @@ class Produtor extends Thread {
     }
 
     public void run() {
-        for (int v = 1; v <= 15; v++){
+        for (int v = 1; v <= 15; v++) {
             try {
-                Thread.sleep((int)(Math.random()*4000));
+                Thread.sleep((int) (Math.random() * 4000));
             } catch (Exception excecao) {
                 System.err.println("Exceção encontrada: " + excecao.getMessage());
             }
@@ -56,7 +58,7 @@ class Consumidor extends Thread {
     public void run() {
         do {
             try {
-                Thread.sleep((int)(Math.random()*4000));
+                Thread.sleep((int) (Math.random() * 4000));
             } catch (Exception excecao) {
                 System.err.println("Exceção encontrada: " + excecao.getMessage());
             }
@@ -65,5 +67,4 @@ class Consumidor extends Thread {
         } while (cont != 15);
         System.out.println("A soma dos valores lidos pelo consumidor foi " + soma);
     }
-
 }

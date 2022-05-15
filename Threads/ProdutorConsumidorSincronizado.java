@@ -1,6 +1,6 @@
 public class ProdutorConsumidorSincronizado {
-    
-    public static void main(String args[]){
+
+    public static void main(String args[]) {
         RecipienteSincronizado rec = new RecipienteSincronizado();
         Produtor2 p = new Produtor2(rec);
         Consumidor2 c = new Consumidor2(rec);
@@ -52,9 +52,9 @@ class Produtor2 extends Thread {
     }
 
     public void run() {
-        for (int v = 1; v <= 15; v++){
+        for (int v = 1; v <= 15; v++) {
             try {
-                Thread.sleep((int)(Math.random()*4000));
+                Thread.sleep((int) (Math.random() * 4000));
             } catch (Exception excecao) {
                 System.err.println("Exceção encontrada: " + excecao.getMessage());
             }
@@ -74,7 +74,7 @@ class Consumidor2 extends Thread {
     public void run() {
         do {
             try {
-                Thread.sleep((int)(Math.random()*4000));
+                Thread.sleep((int) (Math.random() * 4000));
             } catch (Exception excecao) {
                 System.err.println("Exceção encontrada: " + excecao.getMessage());
             }

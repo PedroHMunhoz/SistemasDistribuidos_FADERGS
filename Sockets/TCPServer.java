@@ -43,7 +43,7 @@ class Connection extends Thread {
     }
 
     public void run() {
-        try {			                 // an echo server
+        try { // an echo server
             String data = in.readUTF();
 
             String requestFullValue = data.toUpperCase().trim();
@@ -83,7 +83,8 @@ class Connection extends Thread {
                     break;
                 case "DISCO":
                     long resultadoEspacoEmDisco = retornarEspacoEmDisco();
-                    String espacoEmDiscoFormatado = "Espaco dispon�vel : " + resultadoEspacoEmDisco / (1024 * 1024) + " MB";
+                    String espacoEmDiscoFormatado = "Espaco dispon�vel : " + resultadoEspacoEmDisco / (1024 * 1024)
+                            + " MB";
 
                     meuRetorno = espacoEmDiscoFormatado;
 
@@ -109,7 +110,7 @@ class Connection extends Thread {
         } finally {
             try {
                 clientSocket.close();
-            } catch (IOException e) {/*close failed*/
+            } catch (IOException e) {/* close failed */
             }
         }
     }
