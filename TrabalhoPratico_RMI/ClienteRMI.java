@@ -1,11 +1,7 @@
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.rmi.Naming;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Collections;
 
 public class ClienteRMI {
   static public void main(String rmi[]) {
@@ -35,7 +31,7 @@ public class ClienteRMI {
       String cpfDigitado = "";
 
       while (opcaoMenu != 7) {
-        System.out.println("\n########## MENU DE OPÇÕES RMI ##########");
+        System.out.println("\n########## MENU DE OPCOES RMI ##########");
         System.out.println("1. Fatorial");
         System.out.println("2. Data Atual");
         System.out.println("3. Hora Atual");
@@ -58,16 +54,16 @@ public class ClienteRMI {
             fatorialDesejado = leitura.nextInt();
 
             // Executa o método no servidor remoto e imprime o valor retornado
-            System.out.println("O fatorial de " + fatorialDesejado + " é: " +
-            objeto.getFatorial(fatorialDesejado));
+            System.out.println("O fatorial de " + fatorialDesejado + " e': " +
+                objeto.getFatorial(fatorialDesejado));
             break;
           case 2:
             // Executa o método no servidor remoto e imprime o valor
-            System.out.println("A Data Atual do sistema é: " + objeto.dataAtual());
+            System.out.println("A Data Atual do sistema e': " + objeto.dataAtual());
             break;
           case 3:
             // Executa o método no servidor remoto e imprime o valor
-            System.out.println("A Hora Atual do sistema é: " + objeto.horaAtual());
+            System.out.println("A Hora Atual do sistema e': " + objeto.horaAtual());
             break;
           case 4:
             // Pede que o usuário digite o nome
@@ -80,11 +76,11 @@ public class ClienteRMI {
             leitura.nextLine();
 
             // Executa o método no servidor remoto e imprime o valor
-            // System.out.println(objeto.boasVindas(nomeDigitado));
+            System.out.println(objeto.boasVindas(nomeDigitado));
             break;
           case 5:
             // Pede que o usuário digite os números da lista
-            System.out.println("Digite números inteiros separados por vírgula:");
+            System.out.println("Digite numeros inteiros separados por virgula:");
 
             // Lê o valor digitado pelo usuário
             numerosListaDigitados = leitura.next();
@@ -98,8 +94,8 @@ public class ClienteRMI {
             }
 
             // Executa o método no servidor remoto e imprime o valor
-            // System.out.println("Sua lista digitada ordenada:");
-            // System.out.println(objeto.ordenarLista(listaInteiros));
+            System.out.println("Sua lista digitada ordenada:");
+            System.out.println(objeto.ordenarLista(listaInteiros));
 
             break;
           case 6:
@@ -121,7 +117,7 @@ public class ClienteRMI {
             break;
           default:
             // Se for digitada alguma opção inválida, cai nesse case
-            System.out.println("Opção inválida!");
+            System.out.println("Opção invalida!");
             break;
         }
       }

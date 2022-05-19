@@ -55,8 +55,8 @@ public class ServidorRMI extends UnicastRemoteObject implements InterfaceRMI {
 
   public String boasVindas(String nomeUsuario) {
 
-    // System.out.println(objeto.boasVindas(nomeDigitado));
-    return "";
+    String mensagemBoasVindas = "Seja bem vindo(a) " + nomeUsuario;
+    return mensagemBoasVindas;
   }
 
   public List<Integer> ordenarLista(List<Integer> listaInteiros) {
