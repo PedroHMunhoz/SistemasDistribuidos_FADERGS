@@ -67,9 +67,70 @@ public class ServidorRMI extends UnicastRemoteObject implements InterfaceRMI {
   }
 
   public boolean validarCPF(String cpf) {
+    int i, soma, resto1, digito1, resto2, digito2, valor; //Variáveis de apoio
+	
+	//Inicialização de variáveis para evitar lixo de memória
+	soma = 0;
+	resto1 = 0;
+	resto2 = 0;
+	digito1 = 0;
+	digito2 = 0;
 
-    return true;
+    if(length(cpf) < 11 || length(cpf) > 11){
+      return false;
+    }else {
+
+      String [] strArray = new String []{
+        cpf
+      };
+
+      for(i = 0; i < 9; i++) {  
+		    soma+= Integer.parseInt(strArray)[i] * (10-i);  
+	    }   
+	
+      // Calcula o primeiro resto, fazendo a soma MOD 11
+      resto1 = soma % 11;  
+        
+      // Se por acaso o resto do MOD 11 for 0 ou 1, então o dígito deve ser 0
+      if((resto1 == 0) || (resto1 == 1) )  
+      {  
+        digito1 = 0;  
+      }	  
+      else  //Caso contrário, o dígito será 11 menos o valor do resto
+      {  
+        digito1 = 11 - resto1;  
+      }  
+
+      soma = 0;
+      
+      //Calculando o segundo digito
+      for(i = 0; i < 10; i++)  
+      {  
+        soma += Integer.parseInt(strArray)[i] * (11-i);  
+      }  
+      
+      // Calcula o segundo resto, fazendo a soma MOD 11
+      resto2 = soma % 11;
+        
+      // A regra aqui é a mesma do primeiro dígito, se o resto do MOD 11 for 0 ou 1, o dígito deve ser 0
+      if((resto2 == 0) || (resto2 == 1) )  
+      {  
+        digito2 = 0;  
+      }	  
+      else  //Caso contrário, o dígito será 11 menos o valor do resto
+      {  
+        digito2 = 11 - resto2;  
+      }  
+
+      if((digito1 == icpf[9]) && (digito2 == icpf[10]))  
+      {  
+        return true;  
+      }  
+      else  
+      {  
+        return false;
+      }
+    }
 
   }
-
 }
