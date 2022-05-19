@@ -58,16 +58,16 @@ public class ClienteRMI {
             fatorialDesejado = leitura.nextInt();
 
             // Executa o método no servidor remoto e imprime o valor retornado
-            // System.out.println("O fatorial de " + fatorialDesejado + " é: " +
-            // objeto.getFatorial(fatorialDesejado));
+            System.out.println("O fatorial de " + fatorialDesejado + " é: " +
+            objeto.getFatorial(fatorialDesejado));
             break;
           case 2:
             // Executa o método no servidor remoto e imprime o valor
-            // System.out.println("A Data Atual do sistema é: " + objeto.dataAtual());
+            System.out.println("A Data Atual do sistema é: " + objeto.dataAtual());
             break;
           case 3:
             // Executa o método no servidor remoto e imprime o valor
-            // System.out.println("A Hora Atual do sistema é: " + objeto.horaAtual());
+            System.out.println("A Hora Atual do sistema é: " + objeto.horaAtual());
             break;
           case 4:
             // Pede que o usuário digite o nome
