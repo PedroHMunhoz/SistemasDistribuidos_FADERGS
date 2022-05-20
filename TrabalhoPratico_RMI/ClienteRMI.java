@@ -109,7 +109,14 @@ public class ClienteRMI {
             leitura.nextLine();
 
             // Executa o método no servidor remoto e imprime o valor
-            // System.out.println(objeto.validarCPF(cpfDigitado));
+            boolean cpfValido = objeto.validarCPF(cpfDigitado);
+
+            // Mostra a mensagem conforme o retorno do método
+            if (cpfValido) {
+              System.out.println("O CPF digitado e' valido!");
+            } else {
+              System.out.println("O CPF digitado nao e' valido!");
+            }
 
             break;
           case 7:
@@ -121,7 +128,6 @@ public class ClienteRMI {
             break;
         }
       }
-
     } catch (Exception exc) {
       System.err.println(exc.toString());
     }
