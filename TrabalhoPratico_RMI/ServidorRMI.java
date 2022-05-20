@@ -67,19 +67,22 @@ public class ServidorRMI extends UnicastRemoteObject implements InterfaceRMI {
   }
 
   public boolean validarCPF(String cpf) {
-    int i, soma, resto1, digito1, resto2, digito2; // Variáveis de apoio
+    int i, soma, resto1, digito1, resto2, digito2;
 
-    // Inicialização de variáveis para evitar lixo de memória
+    // Inicialização de variáveis
     soma = 0;
     resto1 = 0;
     resto2 = 0;
     digito1 = 0;
     digito2 = 0;
 
+    // Verifica se o tamanho da string passada é menor ou maior que 11 caracteres
+    // Se for, retorna false
     if (cpf.length() < 11 || cpf.length() > 11) {
       return false;
     } else {
 
+      // Transforma a string num array de caracteres separados
       char[] strArray = cpf.toCharArray();
 
       for (i = 0; i < 9; i++) {
