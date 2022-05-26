@@ -1,5 +1,6 @@
 // Faz a leitura dos dados oriundos de um local e faz um buffer de caracteres pra ser usado posteriormente.
 // No programa, é ele quem lê e armazena a mensagem enviada pelos clientes para enviar para os demais.
+
 import java.io.BufferedReader;
 
 // Faz a escrita de dados em um local e mantém armazenado em um buffer para facilitar o uso posterior.
@@ -90,9 +91,12 @@ public class Servidor extends Thread {
     // que for armazenado nos buffers que chegam ao servidor
     private BufferedReader bfr;
 
-    /* Método construtor da classe Servidor, que recebe como parâmetro um objeto
-    do tipo Socket e instancia as variáveis in, inr e bfr, bem como seta o valor
-    recebido como parâmetro na variável local "con"
+    /**
+     * Método construtor da classe Servidor, que recebe como parâmetro um objeto
+     * do tipo Socket e instancia as variáveis in, inr e bfr, bem como seta o
+     * valor recebido como parâmetro na variável local "con". Os métodos
+     * construtores não tem um tipo específico nem retorno, servem para
+     * instanciar objetos deste classe.
      */
     public Servidor(Socket con) {
 
@@ -112,7 +116,7 @@ public class Servidor extends Thread {
     }
 
     // Esse método é executado ao iniciar uma thread no Java. Sempre que uma thread inicia e vai rodar,
-    // todo o conteúdo deste método será executado.
+    // todo o conteúdo deste método será executado. Esse método é void, ou seja, não possui retorno.
     public void run() {
 
         try {
@@ -121,7 +125,11 @@ public class Servidor extends Thread {
 
             // Cria um objeto para o stream de saída do socket aberto
             OutputStream ou = this.con.getOutputStream();
+
+            // Cria o objeto para a escrita dos dados de saída
             Writer ouw = new OutputStreamWriter(ou);
+
+            // Cria o buffer da leitura dos dados que serão enviados
             BufferedWriter bfw = new BufferedWriter(ouw);
 
             // Adiciona o objeto BufferedWriter na lista que contém os clientes conectado
@@ -151,30 +159,43 @@ public class Servidor extends Thread {
     }
 
     /**
-     * *
-     * Método usado para enviar mensagem para todos os clients
-     *
-     * @param bwSaida do tipo BufferedWriter
-     * @param msg do tipo String
-     * @throws IOException
+     * Esse método é responsável por enviar as mensagens digitadas para todos os
+     * clientes conectados. Cada vez que uma mensagem é recebida no servidor,
+     * esse método será chamado e disparará as mensagens. O método também não
+     * possui retorno, é void, porém em sua declaração informa que, em caso de
+     * quaisquer exceções disparadas, ele irá subir uma Exception do tipo
+     * IOException, que deverá ser tratada pelo método que chamou este método de
+     * envio, para evitar que o programa quebre.
      */
     public void sendToAll(BufferedWriter bwSaida, String msg) throws IOException {
+        // Variável local para o objeto BufferedWriter
         BufferedWriter bwS;
 
+        // Percorre cada cliente armazenado na lista de BufferedWriters
         for (BufferedWriter bw : clientes) {
+
+            // Converte o BufferedWriter atual e armazena na variável local de controle
             bwS = (BufferedWriter) bw;
+
+            // Verifica se a saída é o mesmo que está enviando, para não enviar a mensagem
+            // pro remetente e somente para os outros clientes
             if (!(bwSaida == bwS)) {
+
+                // Escreve a mensagem no buffer pra que todos recebam
                 bw.write(nome + " -> " + msg + "\r\n");
+
+                // Limpa o fluxo de dados para liberar possíveis lixos de memória
                 bw.flush();
             }
         }
     }
 
     /**
-     * *
-     * Método main
-     *
-     * @param args
+     * O método main é o método principal de uma classe, que sempre será
+     * executado em primeiro lugar. Normalmente, é onde se inicializam algumas
+     * coisas, é feita a criação de objetos de interface gráfica, validação de
+     * algumas configurações inicias, etc. Os métodos main são estáticos,
+     * portantos podem ser chamados sem a necessidade de instanciar a classe.
      */
     public static void main(String[] args) {
 
@@ -184,22 +205,47 @@ public class Servidor extends Thread {
 
             // Instancia uma nova label de texto para ser exibida na tela
             JTextField txtPorta = new JTextField("12345");
+
+            // Cria um array de objetos genéricos, e preenche com o lblMessage e o txtPorta
             Object[] texts = {lblMessage, txtPorta};
+
+            // Mostra a caixa de díálogo e mostra pro usuário. O primeiro parâmetro é passado
+            // como null pois o mesmo não possui um pai definido, somente os objetos criados
+            // anteriormente no método.
             JOptionPane.showMessageDialog(null, texts);
+
+            // Instancia e inicializa o objeto do socket de servidor com o valor da porta digitado
+            // pelo usuário anteriormente
             server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
+
+            // Instancia a lista de BufferedWriter que irá armazenar os buffers de leitura dos clientes
             clientes = new ArrayList<BufferedWriter>();
+
+            // Mostra a janela de diálogo com a porta que foi configurada pelo usuário
             JOptionPane.showMessageDialog(null, "Servidor ativo na porta: "
                     + txtPorta.getText());
 
+            // Enquanto a condição for verdadeira, manterá o servidor rodando
             while (true) {
+
+                // Imprime o texto no console do servidor
                 System.out.println("Aguardando conexão...");
+
+                // Configura o sockect para aceitar conexões e ficar ouvindo
                 Socket con = server.accept();
+
+                // Imprime quando algum cliente se conectou ao servidor
                 System.out.println("Cliente conectado...");
+
+                // Instancia uma nova thread passando o socket que foi aberto
                 Thread t = new Servidor(con);
+
+                // Inicializa a execução da thread, que vai chamar seu método run()
                 t.start();
             }
-        } catch (Exception e) {
-
+        } catch (Exception e) { // Trata quaisquer exceções que ocorrem na rotina
+            // Imprime todo o StackTrace da exceção, contendo dados para debug e verificação
+            // do que causou o erro
             e.printStackTrace();
         }
     }// Fim do método main
