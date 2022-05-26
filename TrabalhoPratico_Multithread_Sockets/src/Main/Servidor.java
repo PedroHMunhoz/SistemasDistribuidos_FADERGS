@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -14,104 +15,111 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Servidor extends Thread {
-  private static ArrayList<BufferedWriter> clientes;
-  private static ServerSocket server;
-  private String nome;
-  private Socket con;
-  private InputStream in;
-  private InputStreamReader inr;
-  private BufferedReader bfr;
 
-  /**
-   * Método construtor
-   * 
-   * @param com do tipo Socket
-   */
-  public Servidor(Socket con) {
-    this.con = con;
-    try {
-      in = con.getInputStream();
-      inr = new InputStreamReader(in);
-      bfr = new BufferedReader(inr);
-    } catch (IOException e) {
-      e.printStackTrace();
+    // Variável estática que irá conter a lista de todos os clientes conectados ao servidor
+    private static ArrayList<BufferedWriter> clientes;
+    
+    // Instancia um novo socket para o servidor, que ficará ouvindo e encaminhando as requisições
+    // recebidas para seus respectivos clientes
+    private static ServerSocket server;
+    
+    // Variável para armazenar o nome do cliente e escrever ao lado de cada mensagem enviada
+    private String nome;
+    private Socket con;
+    private InputStream in;
+    private InputStreamReader inr;
+    private BufferedReader bfr;
+
+    /* Método construtor da classe Servidor, que recebe como parâmetro um objeto
+    do tipo Socket e instancia as variáveis in, inr e bfr, bem como seta o valor
+    recebido como parâmetro na variável local "con"
+     */
+    public Servidor(Socket con) {
+        this.con = con;
+        try {
+            in = con.getInputStream();
+            inr = new InputStreamReader(in);
+            bfr = new BufferedReader(inr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-  }
 
-  /**
-   * Método run
-   */
-  public void run() {
+    public void run() {
 
-    try {
+        try {
 
-      String msg;
-      OutputStream ou = this.con.getOutputStream();
-      Writer ouw = new OutputStreamWriter(ou);
-      BufferedWriter bfw = new BufferedWriter(ouw);
-      clientes.add(bfw);
-      nome = msg = bfr.readLine();
+            String msg;
+            OutputStream ou = this.con.getOutputStream();
+            Writer ouw = new OutputStreamWriter(ou);
+            BufferedWriter bfw = new BufferedWriter(ouw);
+            clientes.add(bfw);
+            nome = msg = bfr.readLine();
 
-      while (!"Sair".equalsIgnoreCase(msg) && msg != null) {
-        msg = bfr.readLine();
-        sendToAll(bfw, msg);
-        System.out.println(msg);
-      }
+            while (!"Sair".equalsIgnoreCase(msg) && msg != null) {
+                msg = bfr.readLine();
+                sendToAll(bfw, msg);
+                System.out.println(msg);
+            }
 
-    } catch (Exception e) {
-      e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
 
+        }
     }
-  }
 
-  /***
-   * Método usado para enviar mensagem para todos os clients
-   * 
-   * @param bwSaida do tipo BufferedWriter
-   * @param msg     do tipo String
-   * @throws IOException
-   */
-  public void sendToAll(BufferedWriter bwSaida, String msg) throws IOException {
-    BufferedWriter bwS;
+    /**
+     * *
+     * Método usado para enviar mensagem para todos os clients
+     *
+     * @param bwSaida do tipo BufferedWriter
+     * @param msg do tipo String
+     * @throws IOException
+     */
+    public void sendToAll(BufferedWriter bwSaida, String msg) throws IOException {
+        BufferedWriter bwS;
 
-    for (BufferedWriter bw : clientes) {
-      bwS = (BufferedWriter) bw;
-      if (!(bwSaida == bwS)) {
-        bw.write(nome + " -> " + msg + "\r\n");
-        bw.flush();
-      }
+        for (BufferedWriter bw : clientes) {
+            bwS = (BufferedWriter) bw;
+            if (!(bwSaida == bwS)) {
+                bw.write(nome + " -> " + msg + "\r\n");
+                bw.flush();
+            }
+        }
     }
-  }
 
-  /***
-   * Método main
-   * 
-   * @param args
-   */
-  public static void main(String[] args) {
+    /**
+     * *
+     * Método main
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 
-    try {
-      // Cria os objetos necessário para instânciar o servidor
-      JLabel lblMessage = new JLabel("Porta do Servidor:");
-      JTextField txtPorta = new JTextField("12345");
-      Object[] texts = { lblMessage, txtPorta };
-      JOptionPane.showMessageDialog(null, texts);
-      server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
-      clientes = new ArrayList<BufferedWriter>();
-      JOptionPane.showMessageDialog(null, "Servidor ativo na porta: " +
-          txtPorta.getText());
+        try {
+            // Instancia uma nova label de texto para ser exibida na tela
+            JLabel lblMessage = new JLabel("Porta do Servidor:");
+            
+            // Instancia uma nova label de texto para ser exibida na tela
+            JTextField txtPorta = new JTextField("12345");
+            Object[] texts = {lblMessage, txtPorta};
+            JOptionPane.showMessageDialog(null, texts);
+            server = new ServerSocket(Integer.parseInt(txtPorta.getText()));
+            clientes = new ArrayList<BufferedWriter>();
+            JOptionPane.showMessageDialog(null, "Servidor ativo na porta: "
+                    + txtPorta.getText());
 
-      while (true) {
-        System.out.println("Aguardando conexão...");
-        Socket con = server.accept();
-        System.out.println("Cliente conectado...");
-        Thread t = new Servidor(con);
-        t.start();
-      }
+            while (true) {
+                System.out.println("Aguardando conexão...");
+                Socket con = server.accept();
+                System.out.println("Cliente conectado...");
+                Thread t = new Servidor(con);
+                t.start();
+            }
 
-    } catch (Exception e) {
+        } catch (Exception e) {
 
-      e.printStackTrace();
-    }
-  }// Fim do método main
+            e.printStackTrace();
+        }
+    }// Fim do método main
 } // Fim da classe
