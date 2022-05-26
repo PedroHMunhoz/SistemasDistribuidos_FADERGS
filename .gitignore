@@ -29,3 +29,6 @@ hs_err_pid*
 replay_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/java
+/TrabalhoPratico_Multithread_Sockets/TrabalhoPratico_Multithread_Sockets/nbproject/private/
+/TrabalhoPratico_Multithread_Sockets/nbproject/private/
+/TrabalhoPratico_Multithread_Sockets/build/
