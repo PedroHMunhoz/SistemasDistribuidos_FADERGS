@@ -1,6 +1,5 @@
 // Faz a leitura dos dados oriundos de um local e faz um buffer de caracteres pra ser usado posteriormente.
 // No programa, é ele quem lê e armazena a mensagem enviada pelos clientes para enviar para os demais.
-
 import java.io.BufferedReader;
 
 // Faz a escrita de dados em um local e mantém armazenado em um buffer para facilitar o uso posterior.
